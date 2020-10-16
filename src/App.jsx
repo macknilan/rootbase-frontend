@@ -7,8 +7,8 @@ const UnauthenticatedApp = React.lazy(() => import('./UnauthenticatedApp'));
 
 function App() {
   { /* const { user } = useAuth(); */ }
-  const user = 'mack';
-  { /* const user = null; */ }
+  /* const user = 'mack'; */
+  const user = null;
   return (
     <React.Suspense fallback={<ProgressIndicators />}>
       { user ? <AuthenticatedApp /> : <UnauthenticatedApp /> }

@@ -5,10 +5,10 @@ import ProgressIndicators from './components/ProgressIndicators';
 const AuthenticatedApp = React.lazy(() => import('./AuthenticatedApp'));
 const UnauthenticatedApp = React.lazy(() => import('./UnauthenticatedApp'));
 
-function App() {
+const App = () => {
   { /* const { user } = useAuth(); */ }
-  /* const user = 'mack'; */
-  const user = null;
+  const user = 'mack';
+  /* const user = ''; */
   return (
     <React.Suspense fallback={<ProgressIndicators />}>
       { user ? <AuthenticatedApp /> : <UnauthenticatedApp /> }

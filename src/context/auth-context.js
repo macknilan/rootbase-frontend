@@ -5,8 +5,8 @@ import * as auth from '../auth-provider';
 const AuthContext = React.createContext();
 
 /* const AuthProvider = (props) => { */
-/* function AuthProvider(props) { */
-export const AuthProvider = (props) => {
+/* export const AuthProvider = (props) => { */
+function AuthProvider(props) {
   const history = useHistory();
 
   const [data, setData] = useState({
@@ -117,15 +117,18 @@ export const AuthProvider = (props) => {
     // eslint-disable-next-line
   }, []); */
 
+  console.log('KSDJFLKJSADFLK');
   return (
     // eslint-disable-next-line react/jsx-first-prop-new-line
-    <AuthContext.Provider value={{ data, login, logout, signup }} {...props}
+    <AuthContext.Provider value={{ data, login, logout, signup }}
+      {...props}
     />
   );
 };
 
 const useAuthState = () => React.useContext(AuthContext);
-/* export default { AuthProvider, useAuthState }; */
+export default { AuthProvider, useAuthState };
+
 /* export const useAuthState = () => React.useContext(AuthContext); */
 /* export default AuthProvider; */
 

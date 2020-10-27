@@ -14,8 +14,8 @@ the user data up to date in memory and on the server as we
 make changes to the user's data
 */
 
-import { AuthProvider } from './auth-context';
-import { UserProvider } from './user-context';
+import AuthProvider from './auth-context';
+import UserProvider from './user-context';
 
 function AppProviders({ children }) {
   return (

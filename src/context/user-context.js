@@ -1,13 +1,14 @@
 import React from 'react';
-import { useAuthState } from './auth-context';
+import useAuthState from './auth-context';
 
 const UserContext = React.createContext();
 
-export const UserProvider = (props) => (
+const UserProvider = (props) => (
   <UserContext.Provider value={useAuthState().data.user} {...props} />
 );
 
-export const useUser = () => React.useContext(UserContext);
+const useUser = () => React.useContext(UserContext);
+export default { UserProvider, useUser };
 
 // the UserProvider in user-context.js is basically:
 // const UserProvider = props => (

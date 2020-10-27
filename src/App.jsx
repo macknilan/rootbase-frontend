@@ -8,8 +8,9 @@ const UnauthenticatedApp = React.lazy(() => import('./UnauthenticatedApp'));
 
 /* export const App = () => { */
 /* export default function App() { */
+/* function App() { */
 const App = () => {
-  const { data } = useAuthState();
+  const data = useAuthState();
   return (
     <React.Suspense fallback={<ProgressIndicators />}>
       { data.user ? <AuthenticatedApp /> : <UnauthenticatedApp /> }
@@ -17,10 +18,22 @@ const App = () => {
   );
 };
 
+
+/* const App = () => {
+  return (
+    <React.Suspense fallback={<ProgressIndicators />}>
+      <h1>Hola Mundo</h1>
+    </React.Suspense>
+  );
+}; */
+
+/* const App = () => {
+  return (
+    <React.Suspense fallback={<ProgressIndicators />}>
+      <UnauthenticatedApp />
+    </React.Suspense>
+  );
+}; */
+
 export default App;
-
-/* const App = () => (
-  <h1>Hola Mundo</h1>
-);
-
-export default App; */
+/* export default { App }; */

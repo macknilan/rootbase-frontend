@@ -17,7 +17,6 @@ make changes to the user's data
 import { AuthProvider } from './auth-context';
 import { UserProvider } from './user-context';
 
-/* const AppProviders = ({ children }) => { */
 function AppProviders({ children }) {
   return (
     <AuthProvider>
@@ -27,4 +26,4 @@ function AppProviders({ children }) {
 };
 
 /* export default withRouter(AppProviders); */
-export default AppProviders;
+export default { AppProviders };

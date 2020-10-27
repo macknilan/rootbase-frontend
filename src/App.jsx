@@ -1,7 +1,8 @@
 /* eslint-disable import/prefer-default-export */
-import React from 'react';
+import React, { useContext } from 'react';
 import ProgressIndicators from './components/ProgressIndicators';
-import useAuthState from './context/auth-context';
+/* import useAuthState from './context/auth-context'; */
+import { AuthContext } from './context/auth-context';
 
 const AuthenticatedApp = React.lazy(() => import('./AuthenticatedApp'));
 const UnauthenticatedApp = React.lazy(() => import('./UnauthenticatedApp'));
@@ -10,7 +11,8 @@ const UnauthenticatedApp = React.lazy(() => import('./UnauthenticatedApp'));
 /* export default function App() { */
 /* function App() { */
 const App = () => {
-  const data = useAuthState();
+  const data = useContext(AuthContext);
+  console.log(data);
   return (
     <React.Suspense fallback={<ProgressIndicators />}>
       { data.user ? <AuthenticatedApp /> : <UnauthenticatedApp /> }

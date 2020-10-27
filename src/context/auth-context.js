@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as auth from '../auth-provider';
 
-const AuthContext = React.createContext();
+export const AuthContext = React.createContext();
 
-/* const AuthProvider = (props) => { */
 /* export const AuthProvider = (props) => { */
-function AuthProvider(props) {
+/* function AuthProvider(props) { */
+
+const AppProviders = (props) => {
   const history = useHistory();
 
   const [data, setData] = useState({
@@ -15,14 +16,24 @@ function AuthProvider(props) {
     user: null,
   });
 
-  // LOGIN
-  const login = () => {
+  // DATA FOR TESTING
+  /* const data = () => {
     setData({
       status: 'pending',
       error: null,
       user: null,
     });
-  };
+  }; */
+
+  // LOGIN
+  /* const login = () => {
+    setData({
+      status: 'pending',
+      error: null,
+      user: null,
+    });
+  }; */
+
   /* const login = async (user, password) => {
     setData({
       status: 'pending',
@@ -51,13 +62,13 @@ function AuthProvider(props) {
   }; */
 
   // REGISTER/SIGNUP
-  const signup = () => {
+  /* const signup = () => {
     setData({
       status: 'pending',
       error: null,
       user: null,
     });
-  };
+  }; */
 
   /* const signup = async (registerParams) => {
     console.log(registerParams);
@@ -87,13 +98,14 @@ function AuthProvider(props) {
   }; */
 
   // LOGOUT
-  const logout = () => {
+  /* const logout = () => {
     setData({
       status: 'pending',
       error: null,
       user: null,
     });
-  };
+  }; */
+
   /* const logout = () => {
     // remove info on localStorage and clean the user
     auth.logout();
@@ -117,18 +129,17 @@ function AuthProvider(props) {
     // eslint-disable-next-line
   }, []); */
 
-  console.log('KSDJFLKJSADFLK');
   return (
     // eslint-disable-next-line react/jsx-first-prop-new-line
-    <AuthContext.Provider value={{ data, login, logout, signup }}
-      {...props}
-    />
+    // <AuthContext.Provider value={{ data, login, logout, signup }}
+    <AuthContext.Provider value={{ data }}>
+      { props.children }
+    </AuthContext.Provider>
   );
 };
 
-const useAuthState = () => React.useContext(AuthContext);
-export default { AuthProvider, useAuthState };
+/* const useAuthState = () => React.useContext(AuthContext); */
+/* export default { AuthProvider, useAuthState }; */
 
 /* export const useAuthState = () => React.useContext(AuthContext); */
-/* export default AuthProvider; */
-
+export default AppProviders;

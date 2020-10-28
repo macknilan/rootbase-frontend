@@ -2,10 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as auth from '../auth-provider';
 
-export const AuthContext = React.createContext();
+/*
+AuthProvider
+would be responsible for bootstrapping the app data
+(if the user's authentication token is already in localStorage
+then we can simply retrieve the user's data using that token) */
+/*
+UserProvider
+Then the <UserProvider /> would be responsible for keeping
+the user data up to date in memory and on the server as we
+make changes to the user's data */
 
-/* export const AuthProvider = (props) => { */
-/* function AuthProvider(props) { */
+export const UserProvider = React.createContext();
 
 const AppProviders = (props) => {
   const history = useHistory();
@@ -130,16 +138,10 @@ const AppProviders = (props) => {
   }, []); */
 
   return (
-    // eslint-disable-next-line react/jsx-first-prop-new-line
-    // <AuthContext.Provider value={{ data, login, logout, signup }}
-    <AuthContext.Provider value={{ data }}>
+    <UserProvider.Provider value={{ data }}>
       { props.children }
-    </AuthContext.Provider>
+    </UserProvider.Provider>
   );
 };
 
-/* const useAuthState = () => React.useContext(AuthContext); */
-/* export default { AuthProvider, useAuthState }; */
-
-/* export const useAuthState = () => React.useContext(AuthContext); */
 export default AppProviders;

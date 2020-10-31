@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,7 +14,7 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as LinkRouter } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-/* import { useAuthState } from '../context/auth-context'; */
+import { UserProvider } from '../context/auth-context';
 
 function Copyright() {
   return (
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUpForm = () => {
-  { /* const { signup, data } = useAuthState(); */ }
+  const { signup, data } = useContext(UserProvider);
   const classes = useStyles();
 
   const { register, errors, handleSubmit } = useForm({
@@ -66,7 +66,7 @@ const SignUpForm = () => {
     },
   });
 
-  { /* const onSubmit = (data) => alert(JSON.stringify(data)); */ }
+  /* const onSubmit = (data) => alert(JSON.stringify(data)); */
   const onSubmit = (data) => {
     const formData = {
       firstName: data.firstName,
@@ -75,8 +75,7 @@ const SignUpForm = () => {
       password: data.password,
       recive_promotionse: data.recive_promotionse,
     };
-    console.log(formData);
-    { /* signup(formData); */ }
+    signup(formData);
   };
 
   return (

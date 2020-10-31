@@ -24,24 +24,7 @@ const AppProviders = (props) => {
     user: null,
   });
 
-  // DATA FOR TESTING
-  /* const data = () => {
-    setData({
-      status: 'pending',
-      error: null,
-      user: null,
-    });
-  }; */
-
   // LOGIN
-  /* const login = () => {
-    setData({
-      status: 'pending',
-      error: null,
-      user: null,
-    });
-  }; */
-
   /* const login = async (user, password) => {
     setData({
       status: 'pending',
@@ -70,21 +53,14 @@ const AppProviders = (props) => {
   }; */
 
   // REGISTER/SIGNUP
-  /* const signup = () => {
+  const signup = async (registerParams) => {
     setData({
       status: 'pending',
       error: null,
       user: null,
     });
-  }; */
-
-  /* const signup = async (registerParams) => {
-    console.log(registerParams);
-    setData({
-      status: 'pending',
-      error: null,
-      user: null,
-    });
+    console.log('registerParams -> ', registerParams);
+    debugger;
     try {
       const responseRegister = await auth.register(registerParams);
       setData({
@@ -103,17 +79,9 @@ const AppProviders = (props) => {
       console.log('%c Error on', err);
       setData({ status: 'error', error: err, user: null });
     }
-  }; */
+  };
 
   // LOGOUT
-  /* const logout = () => {
-    setData({
-      status: 'pending',
-      error: null,
-      user: null,
-    });
-  }; */
-
   /* const logout = () => {
     // remove info on localStorage and clean the user
     auth.logout();
@@ -121,7 +89,7 @@ const AppProviders = (props) => {
     history.push('/');
   }; */ // clear the token in localStorage and the user data
 
-  /* useEffect(() => {
+  useEffect(() => {
     async function fetchData(token) {
       const response = await auth.userByToken(token);
       console.log('Auth provider', response);
@@ -135,10 +103,11 @@ const AppProviders = (props) => {
       setData({ status: 'initial', error: null, user: null });
     }
     // eslint-disable-next-line
-  }, []); */
+  }, []);
 
   return (
-    <UserProvider.Provider value={{ data }}>
+    // <AuthContext.Provider value={{ data, login, logout, signup }}
+    <UserProvider.Provider value={{ data, signup }}>
       { props.children }
     </UserProvider.Provider>
   );

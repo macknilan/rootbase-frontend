@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import ProgressIndicators from './components/ProgressIndicators';
+/* import useAuthState from './context/auth-context'; */
 import { UserProvider } from './context/auth-context';
 
 const AuthenticatedApp = React.lazy(() => import('./AuthenticatedApp'));

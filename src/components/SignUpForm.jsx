@@ -58,22 +58,26 @@ const SignUpForm = () => {
     mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
-      firstName: '',
-      lastName: '',
       email: '',
       password: '',
-      recive_promotions: '',
+      password_confirmation: '',
+      firstName: '',
+      lastName: '',
+      username: '',
+      /* recive_promotions: '', */
     },
   });
 
   /* const onSubmit = (data) => alert(JSON.stringify(data)); */
   const onSubmit = (data) => {
     const formData = {
-      firstName: data.firstName,
-      lastName: data.lastName,
       email: data.email,
       password: data.password,
-      recive_promotionse: data.recive_promotionse,
+      password_confirmation: data.password_confirmation,
+      first_name: data.firstName,
+      last_name: data.lastName,
+      username: data.username,
+      /* recive_promotions: data.recive_promotions, */
     };
     signup(formData);
   };
@@ -204,6 +208,52 @@ const SignUpForm = () => {
               )}
             </Grid>
             <Grid item xs={12}>
+              <TextField
+                variant='outlined'
+                inputRef={register({
+                  required: 'Password confirmation is required!',
+                  minLength: {
+                    value: 6,
+                    message: 'Your password must be greater than 6 characters',
+                  },
+                })}
+                error={!!errors.password}
+                required
+                fullWidth
+                name='password_confirmation'
+                label='Password confirmation'
+                type='password'
+                id='password_confirmation'
+                autoComplete='current-password'
+              />
+              {errors.password_confirmation && (
+                <span className={classes.error}>{errors.password_confirmation.message}</span>
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant='outlined'
+                inputRef={register({
+                  required: 'Username is required!',
+                  minLength: {
+                    value: 6,
+                    message: 'Your Username must be greater than 6 characters',
+                  },
+                })}
+                error={!!errors.username}
+                required
+                fullWidth
+                name='username'
+                label='Username'
+                type='username'
+                id='username'
+                autoComplete='current-username'
+              />
+              {errors.username && (
+                <span className={classes.error}>{errors.username.message}</span>
+              )}
+            </Grid>
+            {/* <Grid item xs={12}>
               <FormControlLabel
                 control={(
                   <Checkbox
@@ -215,7 +265,7 @@ const SignUpForm = () => {
                 )}
                 label='I want to receive inspiration, marketing promotions and updates via email.'
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Button
             type='submit'

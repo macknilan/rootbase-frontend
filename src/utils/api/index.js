@@ -11,34 +11,43 @@ const API = axios.create({
   baseURL: API_URL,
   timeout: 10000,
   mode: 'cors',
-  header: DEFAULT_HEADER,
+  /* headers: DEFAULT_HEADER, */
 });
+
+const HandlerError = (err) => {
+  const { data } = err.response;
+  debugger;
+  throw new Error(data.message);
+};
 
 export const EndPoints = (
   base,
-  verb,
+  method,
   headers = {
-    header: DEFAULT_HEADER,
+    headers: DEFAULT_HEADER,
   },
 ) => ({ path = '', body = null, params, headers }) => {
-  if (verb !== 'get') {
-    return API[verb](`${base}/${path}`, body, {
+  if (method !== 'get') {
+    return API.post( base, body, { headers })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch(HandlerError);
+
+    /* return API[method](`${base}/${path}`, body, {
       params,
       headers,
     })
       .then((response) => response.data)
-      .catch(HandlerError);
+      .catch(HandlerError); */
   }
-  return API[verb](`${base}/${path}`, {
+
+  /* return API[method](`${base}/${path}`, {
     params,
     headers,
   })
     .then((response) => response.data)
-    .catch(HandlerError);
-};
-const HandlerError = (err) => {
-  const { data } = err.response;
-  throw new Error(data.message);
+    .catch(HandlerError); */
 };
 
 export default API;

@@ -59,8 +59,7 @@ const AppProviders = (props) => {
       error: null,
       user: null,
     });
-    console.log('registerParams -> ', registerParams);
-    debugger;
+    console.log('registerParams auth-context -> ', registerParams);
     try {
       const responseRegister = await auth.register(registerParams);
       setData({

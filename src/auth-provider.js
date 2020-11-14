@@ -50,8 +50,10 @@ async function login(email, password) {
   }
 }
 
-// SIGNUP
+// REGISTER/SIGNUP
 async function register(data) {
+  console.log('data auth-provider ->', data);
+  /* debugger; */
   // eslint-disable-next-line no-useless-catch
   try {
     const registerResponse = await UserSingUp({

@@ -16,7 +16,8 @@ const API = axios.create({
 
 const HandlerError = (err) => {
   const { data } = err.response;
-  debugger;
+  /* debugger; */
+  console.log(`HandlerError -> ${data.non_field_errors}`);
   throw new Error(data.message);
 };
 
@@ -26,13 +27,14 @@ export const EndPoints = (
   headers = {
     headers: DEFAULT_HEADER,
   },
-) => ({ path = '', body = null, params, headers }) => {
+) => async ({ path = '', body = null, params, headers }) => {
   if (method !== 'get') {
-    return API.post( base, body, { headers })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch(HandlerError);
+    try {
+      const response = await API.post(base, body, headers);
+      console.log(response);
+    } catch (err) {
+      return HandlerError(err);
+    }
 
     /* return API[method](`${base}/${path}`, body, {
       params,

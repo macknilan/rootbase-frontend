@@ -52,8 +52,7 @@ async function login(email, password) {
 
 // REGISTER/SIGNUP
 async function register(data) {
-  console.log('data auth-provider ->', data);
-  /* debugger; */
+  console.log('auth-provider register data ->', data);
   // eslint-disable-next-line no-useless-catch
   try {
     const registerResponse = await UserSingUp({
@@ -61,9 +60,15 @@ async function register(data) {
       body: { ...data },
       params: {},
     });
-    return registerResponse;
+    return { registerResponse };
   } catch (err) {
-    throw err;
+    console.error({
+      /* err, */
+      'error status': err.response.status,
+      'error response': err.response.data,
+      'error message': err.message,
+    });
+    return { err };
   }
 }
 

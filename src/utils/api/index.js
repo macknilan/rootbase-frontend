@@ -14,12 +14,10 @@ const API = axios.create({
   /* headers: DEFAULT_HEADER, */
 });
 
-const HandlerError = (err) => {
-  const { data } = err.response;
-  /* debugger; */
-  console.log(`HandlerError -> ${data.non_field_errors}`);
+/* const HandlerError = (err) => {
+  let { data } = err.response;
   throw new Error(data.message);
-};
+}; */
 
 export const EndPoints = (
   base,
@@ -28,28 +26,35 @@ export const EndPoints = (
     headers: DEFAULT_HEADER,
   },
 ) => async ({ path = '', body = null, params, headers }) => {
-  if (method !== 'get') {
+  if (method !== 'GET') {
     try {
-      const response = await API.post(base, body, headers);
-      console.log(response);
+      const res = await API.post(base, body, headers);
+      return { res };
     } catch (err) {
-      return HandlerError(err);
+      console.error({
+        /* err, */
+        'error status': err.response.status,
+        'error response': err.response.data.non_field_errors,
+        'error message': err.message,
+      });
+      return { err };
     }
+  }
+};
 
-    /* return API[method](`${base}/${path}`, body, {
+/* return API[method](`${base}/${path}`, body, {
       params,
       headers,
     })
       .then((response) => response.data)
       .catch(HandlerError); */
-  }
 
-  /* return API[method](`${base}/${path}`, {
+/* return API[method](`${base}/${path}`, {
     params,
     headers,
   })
     .then((response) => response.data)
     .catch(HandlerError); */
-};
+//};
 
 export default API;

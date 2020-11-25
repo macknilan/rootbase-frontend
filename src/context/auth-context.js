@@ -22,7 +22,7 @@ const AppProviders = (props) => {
     status: 'initial',
     error: null,
     user: null,
-  });
+  }, []);
 
   // LOGIN
   /* const login = async (user, password) => {
@@ -54,29 +54,55 @@ const AppProviders = (props) => {
 
   // REGISTER/SIGNUP
   const signup = async (registerParams) => {
-    setData({
+    /* setData({
       status: 'pending',
       error: null,
       user: null,
-    });
+    }); */
     console.log('registerParams auth-context -> ', registerParams);
     try {
       const responseRegister = await auth.register(registerParams);
-      setData({
-        status: 'success',
-        error: null,
-        user: null,
-      });
+      console.log('responseRegister[IN] auth-context -> ', responseRegister);
+      /* console.log(responseRegister.registerResponse.err.message); */
+      if (responseRegister.registerResponse.err.response.status >= 500 && responseRegister.registerResponse.err.response.status <= 599) {
+        // SERVER ERROR
+        console.error('SERVER ERRORS: ', responseRegister.registerResponse.err.response.status);
+        setData({
+          status: 'error',
+          error: responseRegister.registerResponse.err.response.status,
+          user: null,
+        }, []);
+      } else if (responseRegister.registerResponse.err.response.status >= 400 && responseRegister.registerResponse.err.response.status <= 499) {
+        // THE REQUEST WAS MADE BUT ITS A CLIENT ERROR RESPONSES
+        console.error('CLIENT ERRORS: ', responseRegister.registerResponse.err.response.status);
+        console.error('CLIENT ERRORS: ', responseRegister.registerResponse.err.response.data.non_field_errors);
+        setData({
+          status: 'error',
+          error: responseRegister.registerResponse.err.response.data.non_field_errors,
+          user: null,
+        }, []);
+        //debugger;
+      }
       // DISPATCH MESSAGE SUCCES Revirew email
-      console.log(
+      /* console.log(
         '%c Check your email',
         'background-color: green; color:white;',
-        responseRegister.data.email
-      );
-      history.push('/dashboard');
+        responseRegister.data.email,
+      ); */
+      console.log('DISPATCH MESSAGE SUCCES Revirew email');
+      /* history.push('/dashboard'); */
     } catch (err) {
-      console.log('%c Error on', err);
-      setData({ status: 'error', error: err, user: null });
+      console.error({
+        /* err, */
+        'error status': err.response.status,
+        'error response': err.response.data,
+        'error message': err.message,
+      });
+      setData({
+        status: 'error',
+        error: err,
+        user: null,
+      }, []);
     }
   };
 
@@ -95,7 +121,7 @@ const AppProviders = (props) => {
       setData({ status: 'success', error: null, user: response.data });
       history.push('/dashboard');
     }
-    let token = auth.getToken();
+    const token = auth.getToken();
     if (token) {
       fetchData(token);
     } else {

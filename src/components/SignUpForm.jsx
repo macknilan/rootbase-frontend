@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,10 +8,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Link as LinkRouter } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { UserProvider } from '../context/auth-context';
@@ -52,9 +54,9 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUpForm = () => {
   const { signup, data } = useContext(UserProvider);
-  const classes = useStyles();
 
-  const { register, errors, handleSubmit } = useForm({
+  const classes = useStyles();
+  const { register, handleSubmit, errors } = useForm({
     mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
@@ -68,15 +70,70 @@ const SignUpForm = () => {
     },
   });
 
+  function Snack(props) {
+    const [state, setState] = useState({ open: false });
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      setState({ open: false });
+    };
+    const useStyles = makeStyles((theme) => ({
+      root: {
+        width: '100%',
+        '& > * + *': {
+          marginTop: theme.spacing(2),
+        },
+      },
+    }));
+    const classes = useStyles();
+
+    if (data.error && data.error.length > 0) {
+      /* console.log('data--error-> [ IN ]');
+      console.log('data--error-> ', data.error.length);
+      console.log('data--error-> ', data.error); */
+      /* const errorsArray = [];
+      data.error.forEach((err) => errorsArray.push(err));
+      console.log(errorsArray); */
+      setState({
+        open: true,
+      }, [data.error = null]);
+      /* data.error = null; */
+    }
+    console.log(props.errorsArray);
+
+    return (
+      <div className={classes.root}>
+        <Snackbar
+          open={state.open}
+          autoHideDuration={5000}
+          onClose={handleClose}
+        >
+          <Alert severity='error'>
+            {/* { data.error((error) => error.message) } */}
+            {/* { props.errorsArray } */}
+
+            { props.errorsArray.map((err) => err) }
+            {/* { props.errorsArray.forEach((err) => `${err}\n\n\n\n\n`) } */}
+
+            {/* { data.error ? data.error.forEach((element) => element) : null } */}
+            {/* { errorsArray ? errorsArray.forEach((element) => element) : null } */}
+            {/* { errorsArray.map((error) => error) } */}
+          </Alert>
+        </Snackbar>
+      </div>
+    );
+  }
+
   /* const onSubmit = (data) => alert(JSON.stringify(data)); */
-  const onSubmit = (data) => {
+  const onSubmit = (dataForm) => {
     const formData = {
-      email: data.email,
-      password: data.password,
-      password_confirmation: data.password_confirmation,
-      first_name: data.firstName,
-      last_name: data.lastName,
-      username: data.username,
+      email: dataForm.email,
+      password: dataForm.password,
+      password_confirmation: dataForm.password_confirmation,
+      first_name: dataForm.firstName,
+      last_name: dataForm.lastName,
+      username: dataForm.username,
       /* recive_promotions: data.recive_promotions, */
     };
     signup(formData);
@@ -287,6 +344,12 @@ const SignUpForm = () => {
       </div>
       <Box mt={5}>
         <Copyright />
+      </Box>
+      <Box mt={5}>
+        { data.error && data.error.length > 0 ? <Snack errorsArray={data.error} /> : null }
+        {/* { data.error && data.error.length > 0 ? data.error.forEach((err) => <Snack errorsArray={err} />) : null } */}
+        {/* { data.error && data.error.length > 0 ? data.error.map((err) => <Snack errorsArray={err} />) : null } */}
+        {/* { data.error && data.error.length > 0 ? data.error.forEach((err) => console.log(err)) : null } */}
       </Box>
     </Container>
   );

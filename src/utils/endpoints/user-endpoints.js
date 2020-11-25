@@ -1,7 +1,7 @@
 import { EndPoints } from '../api';
 /* LOGIN */
-export const UserLogin = EndPoints('/users/login/', 'post');
+export const UserLogin = EndPoints('/users/login/', 'POST');
 /* SIGNUP */
-export const UserSingUp = EndPoints('/users/signup/', 'post');
+export const UserSingUp = EndPoints('/users/signup/', 'POST');
 /* USER-REQUEST */
-export const UserRequest = EndPoints('/users/', 'get');
+export const UserRequest = EndPoints('/users/', 'GET');

@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUpForm = () => {
   const { signup, data } = useContext(UserProvider);
-
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm({
     mode: 'onChange',
@@ -70,6 +69,7 @@ const SignUpForm = () => {
     },
   });
 
+  // Snackbar FOR SHOW DE ERRORS FROM THE BACKEND IN THE FORM OF SIGNUP
   function Snack(props) {
     const [state, setState] = useState({ open: false });
     const handleClose = (event, reason) => {
@@ -89,18 +89,10 @@ const SignUpForm = () => {
     const classes = useStyles();
 
     if (data.error && data.error.length > 0) {
-      /* console.log('data--error-> [ IN ]');
-      console.log('data--error-> ', data.error.length);
-      console.log('data--error-> ', data.error); */
-      /* const errorsArray = [];
-      data.error.forEach((err) => errorsArray.push(err));
-      console.log(errorsArray); */
       setState({
         open: true,
       }, [data.error = null]);
-      /* data.error = null; */
     }
-    console.log(props.errorsArray);
 
     return (
       <div className={classes.root}>
@@ -110,22 +102,13 @@ const SignUpForm = () => {
           onClose={handleClose}
         >
           <Alert severity='error'>
-            {/* { data.error((error) => error.message) } */}
-            {/* { props.errorsArray } */}
-
             { props.errorsArray.map((err) => err) }
-            {/* { props.errorsArray.forEach((err) => `${err}\n\n\n\n\n`) } */}
-
-            {/* { data.error ? data.error.forEach((element) => element) : null } */}
-            {/* { errorsArray ? errorsArray.forEach((element) => element) : null } */}
-            {/* { errorsArray.map((error) => error) } */}
           </Alert>
         </Snackbar>
       </div>
     );
   }
 
-  /* const onSubmit = (data) => alert(JSON.stringify(data)); */
   const onSubmit = (dataForm) => {
     const formData = {
       email: dataForm.email,
@@ -251,6 +234,7 @@ const SignUpForm = () => {
                     message: 'Your password must be greater than 6 characters',
                   },
                 })}
+                helperText='Password must be at least 6 characters.'
                 error={!!errors.password}
                 required
                 fullWidth
@@ -347,9 +331,6 @@ const SignUpForm = () => {
       </Box>
       <Box mt={5}>
         { data.error && data.error.length > 0 ? <Snack errorsArray={data.error} /> : null }
-        {/* { data.error && data.error.length > 0 ? data.error.forEach((err) => <Snack errorsArray={err} />) : null } */}
-        {/* { data.error && data.error.length > 0 ? data.error.map((err) => <Snack errorsArray={err} />) : null } */}
-        {/* { data.error && data.error.length > 0 ? data.error.forEach((err) => console.log(err)) : null } */}
       </Box>
     </Container>
   );

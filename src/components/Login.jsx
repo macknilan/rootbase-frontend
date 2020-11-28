@@ -87,7 +87,7 @@ export default function SignIn() {
             required
             fullWidth
             autoComplete='email'
-            autoFocus
+            autoFocus='true'
           />
           {errors.email && (
             <span className={classes.error}>{errors.email.message}</span>

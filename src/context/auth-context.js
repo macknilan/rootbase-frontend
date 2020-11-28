@@ -59,10 +59,10 @@ const AppProviders = (props) => {
       error: null,
       user: null,
     }); */
-    console.log('registerParams auth-context -> ', registerParams);
+    /* console.log('auth-context registerParams -> ', registerParams); */
     try {
       const responseRegister = await auth.register(registerParams);
-      console.log('responseRegister[IN] auth-context -> ', responseRegister);
+      /* console.log('responseRegister[IN] auth-context -> ', responseRegister); */
       /* console.log(responseRegister.registerResponse.err.message); */
       if (responseRegister.registerResponse.err.response.status >= 500 && responseRegister.registerResponse.err.response.status <= 599) {
         // SERVER ERROR
@@ -76,13 +76,44 @@ const AppProviders = (props) => {
         // THE REQUEST WAS MADE BUT ITS A CLIENT ERROR RESPONSES
         console.error('CLIENT ERRORS: ', responseRegister.registerResponse.err.response.status);
         console.error('CLIENT ERRORS: ', responseRegister.registerResponse.err.response.data.non_field_errors);
+        const errorDataArray = [];
+        let errorDataArrayUndefined = '';
+        /* const errorData = []; */
+        /* const errorData = (responseRegister.registerResponse.err.response.data.non_field_errors === undefined) ?
+          responseRegister.registerResponse.err.response.data :
+          responseRegister.registerResponse.err.response.data.non_field_errors; */
+
+        if (responseRegister.registerResponse.err.response.data.non_field_errors === undefined) {
+          /* const errorData = responseRegister.registerResponse.err.response.data; */
+          Object.entries(responseRegister.registerResponse.err.response.data).forEach(
+            (element) => {
+              const [key, value] = element;
+              errorDataArray.push([`${key} ${value[0]}`.charAt(0).toUpperCase() + `${key} ${value[0]}`.slice(1).toLowerCase()]);
+              /* errorDataArray.push([`${key} ${value[0]}`.charAt(0).toUpperCase() + `${key} ${value[0]}`.slice(1)]); */
+              /* errorDataArray.push([`${key} ${value[0]}`.toLowerCase().charAt(0).toUpperCase() + `${key} ${value[0]}`.slice(1)]); */
+            },
+          );
+          console.log(errorDataArray);
+        } else {
+          errorDataArrayUndefined = responseRegister.registerResponse.err.response.data.non_field_errors;
+        }
+
+        /* Object.entries(errorData).forEach(
+          (element) => {
+            const [key, value] = element;
+            console.log([`${key} ${value[0]}`.charAt(0).toUpperCase() + `${key} ${value[0]}`.slice(1)]);
+            errorDataArray.push([`${key} ${value[0]}`.charAt(0).toUpperCase() + `${key} ${value[0]}`.slice(1)]);
+          },
+        ); */
+
         setData({
           status: 'error',
-          error: responseRegister.registerResponse.err.response.data.non_field_errors,
+          /* error: responseRegister.registerResponse.err.response.data.non_field_errors, */
+          error: errorDataArray.length > 0 ? errorDataArray : errorDataArrayUndefined,
           user: null,
         }, []);
-        //debugger;
       }
+
       // DISPATCH MESSAGE SUCCES Revirew email
       /* console.log(
         '%c Check your email',
@@ -94,9 +125,10 @@ const AppProviders = (props) => {
     } catch (err) {
       console.error({
         /* err, */
-        'error status': err.response.status,
-        'error response': err.response.data,
-        'error message': err.message,
+        'error auth-context ': err,
+        /* 'error auth-context status': err.response.status,
+        'error auth-context response': err.response.data,
+        'error auth-context message': err.message, */
       });
       setData({
         status: 'error',

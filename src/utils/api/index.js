@@ -11,13 +11,7 @@ const API = axios.create({
   baseURL: API_URL,
   timeout: 10000,
   mode: 'cors',
-  /* headers: DEFAULT_HEADER, */
 });
-
-/* const HandlerError = (err) => {
-  let { data } = err.response;
-  throw new Error(data.message);
-}; */
 
 export const EndPoints = (
   base,
@@ -33,9 +27,10 @@ export const EndPoints = (
     } catch (err) {
       console.error({
         /* err, */
-        'error status': err.response.status,
-        'error response': err.response.data.non_field_errors,
-        'error message': err.message,
+        'error api status': err.response.status,
+        'error api response.data.non_field_errors': err.response.data.non_field_errors,
+        'error api response.data': err.response.data,
+        'error api message': err.message,
       });
       return { err };
     }

@@ -163,7 +163,7 @@ const SignUpForm = () => {
                 fullWidth
                 id='firstName'
                 label='First Name'
-                autoFocus
+                autoFocus='true'
               />
               {errors.firstName && (
                 <span className={classes.error}>
@@ -196,7 +196,6 @@ const SignUpForm = () => {
                 fullWidth
                 id='lastName'
                 label='Last Name'
-                autoFocus
               />
               {errors.lastName && (
                 <span className={classes.error}>{errors.lastName.message}</span>
